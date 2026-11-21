@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="nightSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <!-- Night sky background -->
+  <rect width="600" height="400" fill="url(#nightSky)"/>
+  
+  <!-- Ground silhouette -->
+  <rect y="330" width="600" height="70" fill="#090d16"/>
+  
+  <!-- Distant City Lights (dim) -->
+  <circle cx="80" cy="310" r="4" fill="#facc15" opacity="0.6"/>
+  <circle cx="120" cy="305" r="3" fill="#facc15" opacity="0.4"/>
+  <circle cx="500" cy="315" r="4" fill="#38bdf8" opacity="0.5"/>
+  <circle cx="540" cy="310" r="3" fill="#facc15" opacity="0.6"/>
+  
+  <!-- Lamp Post Pole -->
+  <path d="M 270 340 L 275 80 L 290 80 L 295 340 Z" fill="#64748b"/>
+  <!-- Base mount -->
+  <rect x="260" y="330" width="45" height="15" fill="#475569" rx="3"/>
+  
+  <!-- Overhang curved arm -->
+  <path d="M 285 85 C 285 40, 360 30, 380 75" fill="none" stroke="#64748b" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Broken Lamp Fixture (Tilted/Off) -->
+  <g transform="rotate(22 380 75)">
+    <!-- Lamp housing -->
+    <path d="M 360 70 L 420 70 L 410 95 L 370 95 Z" fill="#334155" stroke="#475569" stroke-width="2"/>
+    <!-- Broken glass bulb -->
+    <path d="M 372 95 Q 390 115 408 95" fill="none" stroke="#94a3b8" stroke-width="2"/>
+    <!-- Dangling wire with spark -->
+    <path d="M 390 100 Q 380 125 395 135" fill="none" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="395" cy="135" r="3" fill="#facc15"/>
+  </g>
+  
+  <!-- Darkness Indicator / Warning Circle -->
+  <circle cx="390" cy="110" r="45" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4"/>
+  
+  <!-- AI Detection Box Overlay -->
+  <rect x="240" y="25" width="230" height="150" fill="none" stroke="#a855f7" stroke-width="3" stroke-dasharray="6,4"/>
+  <rect x="240" y="5" width="220" height="25" fill="#a855f7" rx="4"/>
+  <text x="250" y="22" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold" font-size="13">BROKEN STREETLIGHT: 91.5%</text>
+</svg>

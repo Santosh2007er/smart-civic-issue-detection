@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Civic - AI-Powered Civic Issue Detection | Designathon 2.0</title>
+  
+  <!-- FontAwesome Icons & Google Font Inter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Institutional Top Bar -->
+  <div class="top-inst-bar">
+    <div class="inst-badge-group">
+      <span class="inst-tag"><i class="fas fa-university"></i> Rajalakshmi Institute of Technology</span>
+      <span>Designathon 2.0 2026 | Team: <strong>DYNAMIC TRIO</strong></span>
+    </div>
+    <div style="display: flex; gap: 14px; align-items: center;">
+      <span><i class="fas fa-globe-americas" style="color: #60a5fa;"></i> UN SDG 11: Sustainable Cities</span>
+      <a href="dashboard.html" style="font-weight: 600;"><i class="fas fa-lock"></i> Officer Portal</a>
+    </div>
+  </div>
+
+  <!-- Primary Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fas fa-city"></i>
+        </div>
+        <div class="brand-text">
+          <h1>SmartCivic AI</h1>
+          <span>Autonomous Civic Problem Detection & Resolution</span>
+        </div>
+      </a>
+
+      <button class="btn-mobile-menu" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+        <li class="nav-item"><a href="report.html"><i class="fas fa-camera-retro"></i> Report an Issue</a></li>
+        <li class="nav-item"><a href="track.html"><i class="fas fa-search-location"></i> Track Complaint</a></li>
+        <li class="nav-item"><a href="dashboard.html"><i class="fas fa-chart-pie"></i> Admin Dashboard</a></li>
+      </ul>
+
+      <div class="nav-auth-group" id="nav-auth-container">
+        <!-- Injected dynamically by main.js -->
+        <a href="login.html" class="btn btn-sm btn-outline"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="register.html" class="btn btn-sm btn-primary"><i class="fas fa-user-plus"></i> Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-robot"></i> Powered by Computer Vision & Deep Learning
+        </div>
+        <h1 class="hero-title">Report Civic Issues in Seconds. Let AI Do the Rest.</h1>
+        <p class="hero-description">
+          Snap a photograph of road potholes, garbage heaps, broken streetlights, or pavement damage. Our automated vision model instantly classifies severity, tags your geo-location, and connects directly to municipal maintenance crews.
+        </p>
+        
+        <div class="hero-actions">
+          <a href="report.html" class="btn btn-lg btn-secondary" style="background:#ffffff; color:var(--primary); font-weight:700;">
+            <i class="fas fa-camera"></i> Report an Issue Now
+          </a>
+          <a href="track.html" class="btn btn-lg btn-outline" style="color:white; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.1);">
+            <i class="fas fa-search"></i> Track Status by ID
+          </a>
+        </div>
+
+        <!-- Quick Track Form Inside Hero -->
+        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 0.75rem 1rem; border-radius: var(--radius-md); max-width: 520px; display: flex; gap: 8px; margin-bottom: 2rem;">
+          <input type="text" id="hero-quick-track" placeholder="Enter Complaint ID (e.g. CIVIC-2026-1001)" style="flex:1; border:none; outline:none; padding:8px 12px; border-radius:var(--radius-sm); font-size:0.9rem;">
+          <button onclick="quickTrackFromHero()" class="btn btn-sm btn-primary" style="background:#0f172a; border:none; padding: 0 16px;">
+            Track
+          </button>
+        </div>
+
+        <div class="hero-stats-row">
+          <div class="hero-stat-item">
+            <h3>96.4%</h3>
+            <p>AI Classification Accuracy</p>
+          </div>
+          <div class="hero-stat-item">
+            <h3>&lt; 24h</h3>
+            <p>Avg. Response Time</p>
+          </div>
+          <div class="hero-stat-item">
+            <h3>4 Key</h3>
+            <p>Civic Issue Categories</p>
+          </div>
+          <div class="hero-stat-item">
+            <h3>100%</h3>
+            <p>Transparent Tracking</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 Problem Categories Showcase -->
+    <section style="margin-bottom: 3.5rem;">
+      <div class="section-header">
+        <span class="section-tag">Categorized Infrastructure Issues</span>
+        <h2 class="section-title">Automated Detection for Key Municipal Hazards</h2>
+        <p class="section-subtitle">Our pre-trained vision engine is calibrated to detect, categorize and prioritize critical urban infrastructure defects.</p>
+      </div>
+
+      <div class="grid-4">
+        <!-- Potholes -->
+        <div class="card">
+          <div class="card-icon red">
+            <i class="fas fa-road"></i>
+          </div>
+          <h3 class="card-title">Potholes</h3>
+          <p class="card-desc">Deep asphalt cavities and crater formations causing high-impact vehicular damage and safety hazards for two-wheelers.</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:0.75rem;">
+            <span class="badge badge-high">Priority: High</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);"><i class="fas fa-clock"></i> SLA: 48 Hrs</span>
+          </div>
+        </div>
+
+        <!-- Garbage Accumulation -->
+        <div class="card">
+          <div class="card-icon amber">
+            <i class="fas fa-trash-alt"></i>
+          </div>
+          <h3 class="card-title">Garbage Accumulation</h3>
+          <p class="card-desc">Overflowing dumpsters, unauthorized waste heaps, and scattered plastic debris posing public health hazards.</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:0.75rem;">
+            <span class="badge badge-medium">Priority: Medium / High</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);"><i class="fas fa-clock"></i> SLA: 24 Hrs</span>
+          </div>
+        </div>
+
+        <!-- Damaged Roads -->
+        <div class="card">
+          <div class="card-icon purple">
+            <i class="fas fa-car-crash"></i>
+          </div>
+          <h3 class="card-title">Damaged Roads</h3>
+          <p class="card-desc">Extensive alligator cracking, broken pavement borders, loose aggregate, and subgrade foundation deterioration.</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:0.75rem;">
+            <span class="badge badge-medium">Priority: Medium</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);"><i class="fas fa-clock"></i> SLA: 72 Hrs</span>
+          </div>
+        </div>
+
+        <!-- Broken Streetlights -->
+        <div class="card">
+          <div class="card-icon blue">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <h3 class="card-title">Broken Streetlights</h3>
+          <p class="card-desc">Non-functional nocturnal luminaires, dangling electrical wiring, and dark corridor risk zones along pedestrian walkways.</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); padding-top:0.75rem;">
+            <span class="badge badge-medium">Priority: Medium</span>
+            <span style="font-size:0.8rem; color:var(--text-muted);"><i class="fas fa-clock"></i> SLA: 24 Hrs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works / Architectural Workflow -->
+    <section style="background: var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:3rem 2rem; margin-bottom: 3.5rem;">
+      <div class="section-header">
+        <span class="section-tag">How It Works</span>
+        <h2 class="section-title">From Photo to Resolution in 4 Simple Steps</h2>
+        <p class="section-subtitle">Bridging the gap between citizen reporting and municipal field action through intelligent automation.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; text-align: center;">
+        <div>
+          <div style="width:56px; height:56px; background:#dbeafe; color:var(--primary); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.4rem;">
+            <i class="fas fa-camera"></i>
+          </div>
+          <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">1. Upload Photo</h4>
+          <p style="font-size:0.88rem; color:var(--text-muted);">Take or upload a picture of the civic issue directly from your phone or browser.</p>
+        </div>
+
+        <div>
+          <div style="width:56px; height:56px; background:#ede9fe; color:#7c3aed; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.4rem;">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">2. AI Detection</h4>
+          <p style="font-size:0.88rem; color:var(--text-muted);">The deep learning model identifies problem category, confidence score & severity.</p>
+        </div>
+
+        <div>
+          <div style="width:56px; height:56px; background:#fef3c7; color:#d97706; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.4rem;">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">3. Geolocation Pin</h4>
+          <p style="font-size:0.88rem; color:var(--text-muted);">GPS automatically tags the precise coordinates on OpenStreetMap with Leaflet.</p>
+        </div>
+
+        <div>
+          <div style="width:56px; height:56px; background:#d1fae5; color:#059669; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:1.4rem;">
+            <i class="fas fa-check-double"></i>
+          </div>
+          <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">4. Track & Resolve</h4>
+          <p style="font-size:0.88rem; color:var(--text-muted);">Monitor resolution through 4 transparent milestones from submission to completion.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Geographic Map Preview -->
+    <section style="margin-bottom: 3.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; margin-bottom: 1.25rem; gap:10px;">
+        <div>
+          <span class="section-tag">Interactive Incident Map</span>
+          <h2 style="font-size:1.75rem; font-weight:700; color:var(--text-main);">Live Reported Issues in Chennai & Poonamallee</h2>
+        </div>
+        <a href="dashboard.html" class="btn btn-outline"><i class="fas fa-expand-arrows-alt"></i> Open Full GIS Console</a>
+      </div>
+
+      <div id="home-map" class="map-container"></div>
+    </section>
+
+    <!-- UN Sustainable Development Goal 11 Banner -->
+    <section style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color:white; border-radius:var(--radius-lg); padding: 2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem; margin-bottom: 2rem;">
+      <div style="max-width: 750px;">
+        <span style="background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:var(--radius-sm); font-size:0.8rem; font-weight:700; text-transform:uppercase;">
+          United Nations SDG 11 Alignment
+        </span>
+        <h3 style="font-size: 1.6rem; font-weight:800; margin: 0.5rem 0;">Sustainable Cities & Communities</h3>
+        <p style="opacity:0.9; font-size:0.95rem;">
+          Our project directly empowers municipalities to achieve target 11.2 (Safe and affordable transport systems) and target 11.6 (Reduce the environmental impacts of cities through municipal waste management).
+        </p>
+      </div>
+      <a href="report.html" class="btn btn-lg" style="background:#ffffff; color:#0369a1; font-weight:700;">
+        <i class="fas fa-hand-holding-heart"></i> Contribute as a Citizen
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>SmartCivic AI</h4>
+        <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:1rem;">
+          AI-Powered Smart Civic Issue Detection & Lifecycle Management System. Built for Designathon 2.0 2026.
+        </p>
+        <div style="color:#64748b; font-size:0.8rem;">
+          <i class="fas fa-code-branch"></i> Node.js &bull; Express &bull; MySQL &bull; Leaflet &bull; Chart.js
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Student Details (Team Members)</h4>
+        <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.7;">
+          <div><strong>Team Name:</strong> DYNAMIC TRIO</div>
+          <div>1. Nisanthan S – CSBS / B</div>
+          <div>2. Santosh G – CSBS / B</div>
+          <div>3. Sooriya Vigneshwaran R – CSBS / B</div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Mentorship & Institution</h4>
+        <div style="font-size:0.85rem; color:#cbd5e1; line-height:1.7;">
+          <div><strong>Mentor:</strong> Mrs. R. Sharmathi</div>
+          <div>Assistant Professor / Department of CSBS</div>
+          <div><strong>Institution:</strong> Rajalakshmi Institute of Technology</div>
+          <div style="color:#94a3b8; font-size:0.8rem; margin-top:6px;">Institution's Innovation Council (Ministry of HRD Initiative)</div>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home Overview</a></li>
+          <li><a href="report.html">Report Civic Issue</a></li>
+          <li><a href="track.html">Track Complaint Status</a></li>
+          <li><a href="dashboard.html">Municipal Dashboard</a></li>
+          <li><a href="login.html">Citizen & Officer Login</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 DYNAMIC TRIO - Rajalakshmi Institute of Technology. Designathon 2.0 Project.</div>
+      <div>Goal: Faster, fairer and more transparent civic issue resolution (UN SDG 11)</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function quickTrackFromHero() {
+      const input = document.getElementById('hero-quick-track');
+      if (input && input.value.trim()) {
+        window.location.href = `track.html?id=${encodeURIComponent(input.value.trim())}`;
+      } else {
+        showToast('Please enter a Complaint ID.', 'warning');
+      }
+    }
+
+    // Initialize Home Live Map Preview
+    document.addEventListener('DOMContentLoaded', async () => {
+      const mapEl = document.getElementById('home-map');
+      if (!mapEl) return;
+
+      const map = L.map('home-map').setView([13.0250, 80.0500], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+
+      try {
+        const res = await fetch(`${API_BASE}/complaints`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          json.data.forEach(c => {
+            const lat = parseFloat(c.latitude);
+            const lng = parseFloat(c.longitude);
+            if (isNaN(lat) || isNaN(lng)) return;
+
+            let col = '#ef4444';
+            if (c.severity === 'Medium') col = '#f59e0b';
+            if (c.status_name === 'Resolved') col = '#10b981';
+
+            L.circleMarker([lat, lng], {
+              radius: 8,
+              fillColor: col,
+              color: '#fff',
+              weight: 2,
+              fillOpacity: 0.85
+            }).addTo(map).bindPopup(`
+              <div style="min-width: 180px;">
+                <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">${c.tracking_id}</div>
+                <div style="font-weight:700; font-size:0.9rem; margin-bottom:4px;">${c.title}</div>
+                <div style="font-size:0.8rem; color:#64748b; margin-bottom:6px;"><i class="fas fa-map-marker-alt"></i> ${c.address}</div>
+                <a href="track.html?id=${c.tracking_id}" style="font-weight:600; font-size:0.82rem;">Track Issue &rarr;</a>
+              </div>
+            `);
+          });
+        }
+      } catch (e) {
+        console.error('Home map error:', e);
+      }
+    });
+  </script>
+</body>
+</html>

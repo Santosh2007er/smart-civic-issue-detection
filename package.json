@@ -1,0 +1,35 @@
+{
+  "name": "smart-civic-issue-detection",
+  "version": "1.0.0",
+  "description": "AI-Powered Smart Civic Issue Detection Web Application for Designathon 2.0 2026 - Team DYNAMIC TRIO, Rajalakshmi Institute of Technology",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js"
+  },
+  "keywords": [
+    "smart-city",
+    "civic-issues",
+    "ai-detection",
+    "leaflet",
+    "chartjs",
+    "nodejs",
+    "express",
+    "mysql",
+    "sdg11"
+  ],
+  "author": "DYNAMIC TRIO (Nisanthan S, Santosh G, Sooriya Vigneshwaran R) - Rajalakshmi Institute of Technology",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

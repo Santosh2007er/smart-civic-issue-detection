@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Civic Complaint | Smart Civic AI</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Institutional Top Bar -->
+  <div class="top-inst-bar">
+    <div class="inst-badge-group">
+      <span class="inst-tag"><i class="fas fa-university"></i> Rajalakshmi Institute of Technology</span>
+      <span>Designathon 2.0 2026 | Team: <strong>DYNAMIC TRIO</strong></span>
+    </div>
+    <div>
+      <a href="index.html">&larr; Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Primary Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fas fa-city"></i>
+        </div>
+        <div class="brand-text">
+          <h1>SmartCivic AI</h1>
+          <span>Complaint Tracker</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="nav-item"><a href="report.html"><i class="fas fa-camera"></i> Report Issue</a></li>
+        <li class="nav-item"><a href="track.html" class="active"><i class="fas fa-search-location"></i> Track Status</a></li>
+        <li class="nav-item"><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      </ul>
+
+      <div class="nav-auth-group" id="nav-auth-container">
+        <!-- Auth injected by main.js -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div style="max-width: 900px; margin: 0 auto;">
+
+      <div style="text-align: center; margin-bottom: 2.5rem;">
+        <span class="section-tag">Public Transparency Portal</span>
+        <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main);">Track Complaint Progress</h1>
+        <p style="color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto;">
+          Follow your reported civic issue through all four resolution stages with real-time municipal updates.
+        </p>
+
+        <!-- Search Form -->
+        <div style="max-width: 580px; margin: 1.75rem auto 0.75rem; display: flex; gap: 8px;">
+          <input type="text" id="track-search-input" class="form-control" style="font-size: 1rem; padding: 0.85rem 1.2rem;" placeholder="Enter Complaint Tracking ID (e.g. CIVIC-2026-1001)">
+          <button type="button" id="btn-track-submit" onclick="handleTrackSearch()" class="btn btn-primary btn-lg" style="padding: 0 1.5rem;">
+            <i class="fas fa-search"></i> Track Status
+          </button>
+        </div>
+
+        <!-- 1-Click Evaluation Sample Buttons -->
+        <div style="font-size: 0.82rem; color: var(--text-muted);">
+          <span>Quick Evaluation Samples:</span>
+          <button type="button" onclick="searchComplaint('CIVIC-2026-1001')" class="btn btn-sm btn-outline" style="margin: 2px;">CIVIC-2026-1001 (In Progress)</button>
+          <button type="button" onclick="searchComplaint('CIVIC-2026-1002')" class="btn btn-sm btn-outline" style="margin: 2px;">CIVIC-2026-1002 (Under Review)</button>
+          <button type="button" onclick="searchComplaint('CIVIC-2026-1003')" class="btn btn-sm btn-outline" style="margin: 2px;">CIVIC-2026-1003 (Submitted)</button>
+          <button type="button" onclick="searchComplaint('CIVIC-2026-1004')" class="btn btn-sm btn-outline" style="margin: 2px;">CIVIC-2026-1004 (Resolved)</button>
+        </div>
+      </div>
+
+      <!-- Tracking Result Container (Filled dynamically by track.js) -->
+      <div id="track-result-container">
+        <!-- Default State -->
+        <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+          <div style="width: 64px; height: 64px; background: #e0e7ff; color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.8rem;">
+            <i class="fas fa-route"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Awaiting Complaint Reference</h3>
+          <p style="color: var(--text-muted); font-size: 0.92rem; max-width: 480px; margin: 0 auto 1.5rem;">
+            Enter your unique Complaint ID in the search bar above, or click one of the quick evaluation sample buttons to inspect resolution progress.
+          </p>
+          <a href="report.html" class="btn btn-primary"><i class="fas fa-camera"></i> Report a New Issue</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div>&copy; 2026 DYNAMIC TRIO - Rajalakshmi Institute of Technology</div>
+      <div>Designathon 2.0 2026 | UN SDG 11: Sustainable Cities</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/track.js"></script>
+</body>
+</html>

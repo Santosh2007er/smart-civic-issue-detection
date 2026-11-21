@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Smart Civic Issue Detection</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Institutional Top Bar -->
+  <div class="top-inst-bar">
+    <div class="inst-badge-group">
+      <span class="inst-tag"><i class="fas fa-university"></i> Rajalakshmi Institute of Technology</span>
+      <span>Designathon 2.0 2026 | Team: <strong>DYNAMIC TRIO</strong></span>
+    </div>
+    <div>
+      <a href="index.html">&larr; Back to Public Portal</a>
+    </div>
+  </div>
+
+  <!-- Primary Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fas fa-city"></i>
+        </div>
+        <div class="brand-text">
+          <h1>SmartCivic AI</h1>
+          <span>Citizen & Officer Access</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="nav-item"><a href="report.html"><i class="fas fa-camera"></i> Report Issue</a></li>
+        <li class="nav-item"><a href="track.html"><i class="fas fa-search-location"></i> Track Status</a></li>
+        <li class="nav-item"><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      </ul>
+
+      <div class="nav-auth-group">
+        <a href="register.html" class="btn btn-sm btn-primary"><i class="fas fa-user-plus"></i> Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Login Form Container -->
+  <main class="container" style="display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem;">
+    <div class="form-card" style="width: 100%;">
+      
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="brand-icon" style="margin: 0 auto 1rem; width: 52px; height: 52px; font-size: 1.5rem;">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">Sign In to Smart Civic</h2>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">
+          Access your submitted reports, monitor progress or manage municipal tasks
+        </p>
+      </div>
+
+      <!-- 1-Click Evaluation Credentials Helper -->
+      <div style="background: #f1f5f9; border: 1px dashed #cbd5e1; border-radius: var(--radius-md); padding: 1rem; margin-bottom: 1.5rem;">
+        <div style="font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 6px;">
+          <i class="fas fa-key"></i> Quick Demo Fill for Evaluators:
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" onclick="fillDemoAccount('admin')" class="btn btn-sm btn-outline" style="background:#ffffff;">
+            <i class="fas fa-user-shield" style="color:var(--primary);"></i> Login as Municipal Admin
+          </button>
+          <button type="button" onclick="fillDemoAccount('citizen')" class="btn btn-sm btn-outline" style="background:#ffffff;">
+            <i class="fas fa-user" style="color:var(--success);"></i> Login as Citizen (Nisanthan S)
+          </button>
+        </div>
+      </div>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Registered Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="e.g. nisanthan@ritchennai.edu.in" required>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">Default demo pass: admin123</span>
+          </div>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;">
+          <i class="fas fa-sign-in-alt"></i> Sign In to Account
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.75rem; border-top: 1px solid var(--border); padding-top: 1.25rem; font-size: 0.9rem; color: var(--text-muted);">
+        Don't have a registered account yet? <a href="register.html" style="font-weight: 600;">Create a Free Citizen Account</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div>&copy; 2026 DYNAMIC TRIO - Rajalakshmi Institute of Technology</div>
+      <div>Designathon 2.0 2026 | UN SDG 11: Sustainable Cities</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

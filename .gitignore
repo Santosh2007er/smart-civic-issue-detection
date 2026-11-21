@@ -1,0 +1,21 @@
+
+# Dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Runtime uploads (preserve demonstration samples)
+backend/uploads/*
+!backend/uploads/samples/
+!backend/uploads/samples/**
+
+# Logs
+*.log
+npm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db

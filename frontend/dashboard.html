@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard & Municipal Analytics | Smart Civic AI</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS for Admin GIS Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <!-- Chart.js for Visual Reports -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Institutional Top Bar -->
+  <div class="top-inst-bar">
+    <div class="inst-badge-group">
+      <span class="inst-tag"><i class="fas fa-university"></i> Rajalakshmi Institute of Technology</span>
+      <span>Designathon 2.0 2026 | Team: <strong>DYNAMIC TRIO</strong></span>
+    </div>
+    <div style="display: flex; gap: 14px; align-items: center;">
+      <span style="color: #60a5fa;"><i class="fas fa-shield-alt"></i> Municipal Administrative Control</span>
+      <a href="index.html">&larr; Public Portal</a>
+    </div>
+  </div>
+
+  <!-- Primary Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="dashboard.html" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="brand-text">
+          <h1>SmartCivic Admin</h1>
+          <span>Municipal Operations & Analytics</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="nav-item"><a href="report.html"><i class="fas fa-camera"></i> Report Issue</a></li>
+        <li class="nav-item"><a href="track.html"><i class="fas fa-search-location"></i> Track Status</a></li>
+        <li class="nav-item"><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      </ul>
+
+      <div class="nav-auth-group" id="nav-auth-container">
+        <!-- Auth injected by main.js -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Container -->
+  <main class="container">
+    
+    <!-- Dashboard Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+      <div>
+        <span class="section-tag">Municipal Control Room</span>
+        <h1 style="font-size: 2rem; font-weight: 800; color: var(--text-main);">Civic Issues Command Center</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          Real-time incident tracking, automated AI classification distribution, and field status workflow management.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button onclick="initDashboard()" class="btn btn-outline">
+          <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+        <a href="report.html" class="btn btn-primary">
+          <i class="fas fa-plus"></i> New Complaint
+        </a>
+      </div>
+    </div>
+
+    <!-- 4 KPI Metrics Cards -->
+    <div class="stats-grid">
+      <!-- Total Complaints -->
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Total Complaints</p>
+          <h2 id="stat-total">--</h2>
+        </div>
+        <div class="stat-icon" style="background: #dbeafe; color: var(--primary);">
+          <i class="fas fa-clipboard-list"></i>
+        </div>
+      </div>
+
+      <!-- Pending Complaints -->
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Pending / Active</p>
+          <h2 id="stat-pending" style="color: var(--warning);">--</h2>
+        </div>
+        <div class="stat-icon" style="background: #fef3c7; color: var(--warning);">
+          <i class="fas fa-clock"></i>
+        </div>
+      </div>
+
+      <!-- Resolved Complaints -->
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>Resolved Issues</p>
+          <h2 id="stat-resolved" style="color: var(--success);">--</h2>
+        </div>
+        <div class="stat-icon" style="background: #d1fae5; color: var(--success);">
+          <i class="fas fa-check-circle"></i>
+        </div>
+      </div>
+
+      <!-- High Priority Complaints -->
+      <div class="stat-card">
+        <div class="stat-info">
+          <p>High Priority (Urgent)</p>
+          <h2 id="stat-high" style="color: var(--danger);">--</h2>
+        </div>
+        <div class="stat-icon" style="background: #fee2e2; color: var(--danger);">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Reports: Chart.js Visualizations -->
+    <div class="charts-grid">
+      <!-- Category Breakdown Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title"><i class="fas fa-chart-pie" style="color: var(--primary);"></i> Issues by Category</h3>
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">AI CLASSIFIED</span>
+        </div>
+        <div class="chart-body">
+          <canvas id="chart-categories"></canvas>
+        </div>
+      </div>
+
+      <!-- Status Distribution Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title"><i class="fas fa-chart-bar" style="color: var(--purple);"></i> Status Lifecycle Stages</h3>
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">4-STEP PIPELINE</span>
+        </div>
+        <div class="chart-body">
+          <canvas id="chart-statuses"></canvas>
+        </div>
+      </div>
+
+      <!-- Severity Levels Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title"><i class="fas fa-shield-alt" style="color: var(--danger);"></i> Severity Prioritization</h3>
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">TRIAGE RISK</span>
+        </div>
+        <div class="chart-body">
+          <canvas id="chart-severities"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Geographic Incident Mapping (Leaflet) -->
+    <div class="card" style="margin-bottom: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 8px;">
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 700;">
+            <i class="fas fa-map-marked-alt" style="color: var(--primary);"></i> Geospatial Incident Mapping (OpenStreetMap)
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Real-time coordinates of reported civic hazards across Chennai, Poonamallee & RIT perimeter. Click markers to inspect details.
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px; font-size: 0.78rem;">
+          <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:#ef4444; border-radius:50%; display:inline-block;"></span> High Severity</span>
+          <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:#f59e0b; border-radius:50%; display:inline-block;"></span> Medium Severity</span>
+          <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px; height:10px; background:#10b981; border-radius:50%; display:inline-block;"></span> Resolved</span>
+        </div>
+      </div>
+
+      <div id="admin-map" class="map-container" style="height: 380px;"></div>
+    </div>
+
+    <!-- Complaints Management Table -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h3 style="font-size: 1.2rem; font-weight: 800;">Complaints Management & Action Queue</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            Update complaint statuses inline or inspect complete incident photographs and AI telemetry.
+          </p>
+        </div>
+      </div>
+
+      <!-- Filters Strip -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 1.25rem; background: var(--bg-subtle); padding: 0.85rem; border-radius: var(--radius-md);">
+        <div>
+          <input type="text" id="filter-search" class="form-control" placeholder="Search ID, title, or road..." oninput="loadComplaintsTable()">
+        </div>
+        <div>
+          <select id="filter-category" class="form-control" onchange="loadComplaintsTable()">
+            <option value="">All Categories</option>
+            <option value="pothole">Potholes</option>
+            <option value="garbage">Garbage Accumulation</option>
+            <option value="damaged_road">Damaged Roads</option>
+            <option value="broken_streetlight">Broken Streetlights</option>
+          </select>
+        </div>
+        <div>
+          <select id="filter-status" class="form-control" onchange="loadComplaintsTable()">
+            <option value="">All Statuses</option>
+            <option value="submitted">Submitted</option>
+            <option value="under_review">Under Review</option>
+            <option value="work_in_progress">Work in Progress</option>
+            <option value="resolved">Resolved</option>
+          </select>
+        </div>
+        <div>
+          <select id="filter-severity" class="form-control" onchange="loadComplaintsTable()">
+            <option value="">All Severities</option>
+            <option value="High">High Priority</option>
+            <option value="Medium">Medium Priority</option>
+            <option value="Low">Low Priority</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Data Table -->
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tracking ID</th>
+              <th>Incident Details & Location</th>
+              <th>Category & AI Score</th>
+              <th>Severity</th>
+              <th>Status (Inline Update)</th>
+              <th>Reported On</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="complaints-table-body">
+            <!-- Dynamically populated by dashboard.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Details Inspection Modal -->
+  <div class="modal-overlay" id="details-modal">
+    <div class="modal-content" style="max-width: 750px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Inspect Civic Incident Record</h3>
+        <button type="button" class="btn-close-modal" onclick="closeModal('details-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="details-modal-body">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div>&copy; 2026 DYNAMIC TRIO - Rajalakshmi Institute of Technology</div>
+      <div>Designathon 2.0 2026 | UN SDG 11: Sustainable Cities</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

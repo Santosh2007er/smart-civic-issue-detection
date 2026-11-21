@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Civic Issue | Smart Civic AI</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet CSS for Map Pin Dropper -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Institutional Top Bar -->
+  <div class="top-inst-bar">
+    <div class="inst-badge-group">
+      <span class="inst-tag"><i class="fas fa-university"></i> Rajalakshmi Institute of Technology</span>
+      <span>Designathon 2.0 2026 | Team: <strong>DYNAMIC TRIO</strong></span>
+    </div>
+    <div>
+      <a href="index.html">&larr; Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Primary Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fas fa-city"></i>
+        </div>
+        <div class="brand-text">
+          <h1>SmartCivic AI</h1>
+          <span>Lodge Civic Incident</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="nav-item"><a href="report.html" class="active"><i class="fas fa-camera"></i> Report Issue</a></li>
+        <li class="nav-item"><a href="track.html"><i class="fas fa-search-location"></i> Track Status</a></li>
+        <li class="nav-item"><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+      </ul>
+
+      <div class="nav-auth-group" id="nav-auth-container">
+        <!-- Auth injected by main.js -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Report Form Container -->
+  <main class="container">
+    <div style="max-width: 820px; margin: 0 auto;">
+
+      <div style="margin-bottom: 2rem;">
+        <span class="section-tag">Citizen Action Portal</span>
+        <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--text-main);">Report an Infrastructure Problem</h1>
+        <p style="color: var(--text-muted); font-size: 1.05rem;">
+          Upload a photograph of the issue. Our pre-trained AI vision model will automatically categorize it, estimate severity, and tag its geographic coordinates for immediate municipal dispatch.
+        </p>
+      </div>
+
+      <form id="report-form" onsubmit="handleComplaintSubmit(event)">
+
+        <!-- Step 1: Photograph Upload & AI Detection -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
+            <span style="width:28px; height:28px; background:var(--primary); color:white; border-radius:50%; font-size:0.85rem; display:inline-flex; align-items:center; justify-content:center;">1</span>
+            Issue Photograph & Automated AI Detection
+          </h2>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Provide a clear photo of the pothole, garbage dump, damaged road, or broken streetlight.
+          </p>
+
+          <!-- Drag and Drop Box -->
+          <div class="dropzone" id="image-dropzone">
+            <input type="file" id="report-image-input" class="file-input-hidden" accept="image/jpeg,image/png,image/webp,image/jpg">
+            
+            <div id="dropzone-content">
+              <i class="fas fa-cloud-upload-alt dropzone-icon"></i>
+              <div class="dropzone-text">
+                <h4>Drop issue photo here, or click to browse files</h4>
+                <p>Supports high-resolution JPEG, PNG, WEBP (Max: 10MB)</p>
+              </div>
+            </div>
+
+            <!-- Preview Container -->
+            <div id="preview-container" class="preview-container">
+              <img id="image-preview" class="preview-image" alt="Uploaded Issue Preview">
+              <button type="button" class="btn-remove-preview" onclick="removeSelectedImage(event)" title="Remove Image">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick 1-Click Sample Test Images for Evaluators -->
+          <div class="sample-images-bar">
+            <h5><i class="fas fa-flask"></i> 1-Click Evaluation Samples (Click to test AI instantly):</h5>
+            <div class="sample-pills">
+              <button type="button" class="sample-btn" onclick="selectSampleImage('pothole', this)">
+                <i class="fas fa-road" style="color:var(--danger);"></i> Test Pothole Photo
+              </button>
+              <button type="button" class="sample-btn" onclick="selectSampleImage('garbage', this)">
+                <i class="fas fa-trash-alt" style="color:var(--warning);"></i> Test Garbage Photo
+              </button>
+              <button type="button" class="sample-btn" onclick="selectSampleImage('damaged_road', this)">
+                <i class="fas fa-car-crash" style="color:#f97316;"></i> Test Damaged Road
+              </button>
+              <button type="button" class="sample-btn" onclick="selectSampleImage('streetlight', this)">
+                <i class="fas fa-lightbulb" style="color:var(--purple);"></i> Test Broken Streetlight
+              </button>
+            </div>
+          </div>
+
+          <!-- AI Detection Result Box (Rendered dynamically) -->
+          <div id="ai-result-box" class="ai-result-box"></div>
+        </div>
+
+        <!-- Step 2: Issue Details & Correction -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px;">
+            <span style="width:28px; height:28px; background:var(--primary); color:white; border-radius:50%; font-size:0.85rem; display:inline-flex; align-items:center; justify-content:center;">2</span>
+            Issue Details & Citizen Verification
+          </h2>
+          
+          <div class="form-group">
+            <label class="form-label" for="report-title">Complaint Title *</label>
+            <input type="text" id="report-title" class="form-control" placeholder="e.g. Hazardous deep pothole on Bangalore High Road" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;" id="category-group">
+            <div class="form-group">
+              <label class="form-label" for="report-category">Issue Category (AI Identified / Editable)</label>
+              <select id="report-category" class="form-control">
+                <option value="1">Potholes</option>
+                <option value="2">Garbage Accumulation</option>
+                <option value="3">Damaged Roads</option>
+                <option value="4">Broken Streetlights</option>
+              </select>
+              <div class="form-hint">You can correct the category if the AI prediction was inaccurate.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="report-severity">Severity / Priority</label>
+              <select id="report-severity" class="form-control">
+                <option value="High">High (Immediate Hazard / Accident Risk)</option>
+                <option value="Medium" selected>Medium (Inconvenience / Progressive Damage)</option>
+                <option value="Low">Low (Minor cosmetic / Non-urgent)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="report-desc">Comprehensive Description *</label>
+            <textarea id="report-desc" class="form-control" placeholder="Describe the size, danger level, time noticed, or other critical details to assist municipal field technicians..." required></textarea>
+          </div>
+        </div>
+
+        <!-- Step 3: Location Tracking -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 0.5rem;">
+            <h2 style="font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+              <span style="width:28px; height:28px; background:var(--primary); color:white; border-radius:50%; font-size:0.85rem; display:inline-flex; align-items:center; justify-content:center;">3</span>
+              Incident Location & Geo-Tagging
+            </h2>
+            <button type="button" id="btn-gps-detect" onclick="captureGpsLocation()" class="btn btn-sm btn-outline">
+              <i class="fas fa-crosshairs" style="color:var(--primary);"></i> Detect My Current GPS Location
+            </button>
+          </div>
+
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1rem;">
+            Drag the pin or click anywhere on the OpenStreetMap below to pinpoint the exact location.
+          </p>
+
+          <!-- Interactive Leaflet Pin Dropper -->
+          <div id="picker-map" class="map-container map-picker"></div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="report-lat">Latitude</label>
+              <input type="text" id="report-lat" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="report-lng">Longitude</label>
+              <input type="text" id="report-lng" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="report-address">Street Address / Road Name *</label>
+            <input type="text" id="report-address" class="form-control" placeholder="e.g. Bangalore High Road, Chembarambakkam, Chennai" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="report-landmark">Nearby Landmark</label>
+              <input type="text" id="report-landmark" class="form-control" placeholder="e.g. Opposite Rajalakshmi Institute of Technology">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="report-ward">Ward / Municipal Zone</label>
+              <input type="text" id="report-ward" class="form-control" placeholder="e.g. Ward 14, Poonamallee">
+            </div>
+          </div>
+        </div>
+
+        <!-- Optional Reporter Info (If guest) -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Citizen Contact Information (Optional)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Used to send automated SMS/Email tracking updates as your complaint progresses.</p>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="report-name">Your Full Name</label>
+              <input type="text" id="report-name" class="form-control" placeholder="Nisanthan S">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="report-email">Email for Notifications</label>
+              <input type="email" id="report-email" class="form-control" placeholder="nisanthan@ritchennai.edu.in">
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-complaint" class="btn btn-primary btn-lg" style="width: 100%; font-size: 1.1rem; padding: 1rem;">
+          <i class="fas fa-paper-plane"></i> Submit Complaint to Municipal Database
+        </button>
+
+      </form>
+    </div>
+  </main>
+
+  <!-- Success Modal Dialog -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-body" id="success-modal-body">
+        <!-- Rendered by report.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div>&copy; 2026 DYNAMIC TRIO - Rajalakshmi Institute of Technology</div>
+      <div>Designathon 2.0 2026 | UN SDG 11: Sustainable Cities</div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/report.js"></script>
+</body>
+</html>

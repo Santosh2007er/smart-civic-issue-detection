@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citizen Registration | Smart Civic Issue Detection</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Institutional Top Bar -->
+  <div class="top-inst-bar">
+    <div class="inst-badge-group">
+      <span class="inst-tag"><i class="fas fa-university"></i> Rajalakshmi Institute of Technology</span>
+      <span>Designathon 2.0 2026 | Team: <strong>DYNAMIC TRIO</strong></span>
+    </div>
+    <div>
+      <a href="index.html">&larr; Back to Public Portal</a>
+    </div>
+  </div>
+
+  <!-- Primary Navigation -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fas fa-city"></i>
+        </div>
+        <div class="brand-text">
+          <h1>SmartCivic AI</h1>
+          <span>New Account Registration</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li class="nav-item"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li class="nav-item"><a href="report.html"><i class="fas fa-camera"></i> Report Issue</a></li>
+        <li class="nav-item"><a href="track.html"><i class="fas fa-search-location"></i> Track Status</a></li>
+      </ul>
+
+      <div class="nav-auth-group">
+        <a href="login.html" class="btn btn-sm btn-outline"><i class="fas fa-sign-in-alt"></i> Already have account? Login</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Registration Form Container -->
+  <main class="container" style="display: flex; align-items: center; justify-content: center; padding: 2.5rem 1.5rem;">
+    <div class="form-card" style="width: 100%;">
+      
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div class="brand-icon" style="margin: 0 auto 1rem; width: 52px; height: 52px; font-size: 1.5rem;">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">Join Smart Civic Community</h2>
+        <p style="color: var(--text-muted); font-size: 0.92rem;">
+          Help transform Chennai into a safer, cleaner, and sustainable city (SDG 11)
+        </p>
+      </div>
+
+      <form id="register-form" onsubmit="handleRegister(event)">
+        
+        <div class="form-group">
+          <label class="form-label" for="reg-fullname">Full Name *</label>
+          <input type="text" id="reg-fullname" class="form-control" placeholder="e.g. Nisanthan S" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address *</label>
+            <input type="email" id="reg-email" class="form-control" placeholder="name@ritchennai.edu.in" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-phone">Contact Phone Number</label>
+            <input type="tel" id="reg-phone" class="form-control" placeholder="+91 98765 43210">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label" for="reg-password">Password *</label>
+            <input type="password" id="reg-password" class="form-control" placeholder="Min. 6 characters" minlength="6" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="reg-role">Account Type</label>
+            <select id="reg-role" class="form-control">
+              <option value="citizen" selected>Citizen Reporter</option>
+              <option value="officer">Municipal Field Officer</option>
+              <option value="admin">Ward Administrator</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+          <i class="fas fa-shield-alt" style="color: var(--success);"></i> Passwords are encrypted with bcrypt hashing. Your personal data is protected under municipal privacy compliance.
+        </div>
+
+        <button type="submit" id="btn-reg-submit" class="btn btn-primary btn-lg" style="width: 100%;">
+          <i class="fas fa-user-plus"></i> Complete Citizen Registration
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.75rem; border-top: 1px solid var(--border); padding-top: 1.25rem; font-size: 0.9rem; color: var(--text-muted);">
+        Already registered with Smart Civic? <a href="login.html" style="font-weight: 600;">Sign In here</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      <div>&copy; 2026 DYNAMIC TRIO - Rajalakshmi Institute of Technology</div>
+      <div>Designathon 2.0 2026 | UN SDG 11: Sustainable Cities</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
